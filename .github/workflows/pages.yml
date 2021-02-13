@@ -1,0 +1,31 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - master # Set a branch to deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: git@github.com:doukutsu-rs/doukutsu-rs.git
+          submodules: false
+          fetch-depth: 1
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.4
+          
+      - name: Build
+        run: npx -p typescript -p typedoc typedoc --readme none --out ./public --tsconfig ./src/scripting/tsconfig.json ./src/scripting/doukutsu.d.ts
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          branch: gh-pages
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
