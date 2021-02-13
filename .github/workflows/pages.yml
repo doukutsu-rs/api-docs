@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          repository: git@github.com:doukutsu-rs/doukutsu-rs.git
+          repository: doukutsu-rs/doukutsu-rs
           submodules: false
           fetch-depth: 1
 
